@@ -28,8 +28,8 @@ public class GPSLatLonReader extends Thread implements Runnable {
 	public void run() {
 		
 		if (SharedData.comPort == null) {
-			System.err.println("Comm port was not specified. Pass it in as an arguement.");
-			return;
+			System.err.println("COM port for GPS was not specified. Pass it in as an arguement.");
+			System.exit(0);
 		}
 
 		SerialPort port = SerialPort.getCommPort(SharedData.comPort);
