@@ -53,6 +53,8 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 					if (line.startsWith("$GPRMC")) {
 						parseRMC(line);
+					} else if (line.startsWith("$GNGGA")) {
+						parseGNGGA(line);
 					}
 					// else if (line.startsWith("$GPGGA")) {
 					// parseGGA(line);
@@ -106,6 +108,42 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		if (SharedData.debug)
 			System.out.printf("RMC -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
+	}
+
+	private void parseGNGGA(String nmea) {
+
+		// Remove checksum if present
+		int asterisk = nmea.indexOf('*');
+		if (asterisk > 0) {
+			nmea = nmea.substring(0, asterisk);
+		}
+
+		String[] t = nmea.split(",");
+
+		// GGA requires at least 6 fields for lat/lon
+		if (t.length < 6) {
+			return;
+		}
+
+		LatLon newCoord = new LatLon(nmeaToDecimal(t[2], t[3]), nmeaToDecimal(t[4], t[5]));
+
+		// Update previous coordinate
+		if (newCoord != SharedData.getInstance().getCurrCoord())
+			SharedData.getInstance().setPrevCoord(SharedData.getInstance().getCurrCoord());
+
+		if (SharedData.incrementGPS) {
+
+			latGenerator -= 0.0001;
+			lonGenerator -= 0.0001;
+			newCoord.latitude += latGenerator;
+			newCoord.longitude += lonGenerator;
+		}
+
+		// Update current coordinate
+		SharedData.getInstance().setCurrCoord(newCoord);
+
+		if (SharedData.debug)
+			System.out.printf("GNGGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
 	}
 
 	private void parseGGA(String nmea) {

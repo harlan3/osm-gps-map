@@ -117,6 +117,12 @@ public class SWTBrowser {
 
 						if (shell.isDisposed() || browser.isDisposed())
 							return;
+						
+						// Execute the run method again later once a valid GPS point is available
+						if (SharedData.getInstance().getCurrCoord() == null) {
+							display.timerExec(1000, this);
+							return;
+						}
 
 						// Extract the zoom level out of the current URL
 						String currentUrl = browser.getUrl();
