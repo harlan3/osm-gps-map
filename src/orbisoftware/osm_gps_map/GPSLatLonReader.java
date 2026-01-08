@@ -51,14 +51,12 @@ public class GPSLatLonReader extends Thread implements Runnable {
 				while (scanner.hasNextLine()) {
 					String line = scanner.nextLine().trim();
 
-					if (line.startsWith("$GPRMC")) {
-						parseRMC(line);
-					} else if (line.startsWith("$GNGGA")) {
+					if (line.startsWith("$GPRMC"))
+						parseGPRMC(line);
+					else if (line.startsWith("$GNGGA"))
 						parseGNGGA(line);
-					}
-					// else if (line.startsWith("$GPGGA")) {
-					// parseGGA(line);
-					// }
+					else if (line.startsWith("$GPGGA"))
+						parseGPGGA(line);
 					
 					if (SharedData.applicationClosing)
 						break;
@@ -82,7 +80,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 	// ===================== PARSERS =====================
 
-	private void parseRMC(String nmea) {
+	private void parseGPRMC(String nmea) {
 
 		String[] t = nmea.split(",");
 
@@ -107,7 +105,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		SharedData.getInstance().setCurrCoord(newCoord);
 
 		if (SharedData.debug)
-			System.out.printf("RMC -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
+			System.out.printf("GPRMC -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
 	}
 
 	private void parseGNGGA(String nmea) {
@@ -120,7 +118,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		String[] t = nmea.split(",");
 
-		// GGA requires at least 6 fields for lat/lon
+		// GNGGA requires at least 6 fields for lat/lon
 		if (t.length < 6) {
 			return;
 		}
@@ -146,7 +144,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			System.out.printf("GNGGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
 	}
 
-	private void parseGGA(String nmea) {
+	private void parseGPGGA(String nmea) {
 
 		String[] t = nmea.split(",");
 
@@ -171,7 +169,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		SharedData.getInstance().setCurrCoord(newCoord);
 
 		if (SharedData.debug)
-			System.out.printf("GGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
+			System.out.printf("GPGGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
 	}
 
 	// ===================== CONVERSION =====================
