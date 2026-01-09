@@ -109,7 +109,6 @@ public class SWTBrowser {
 
 				browser.execute(setupScript);
 
-				// Java-controlled smooth rotation loop (~60 FPS)
 				display.timerExec(1000, new Runnable() {
 					@Override
 					public void run() {
@@ -161,7 +160,7 @@ public class SWTBrowser {
 							
 							System.out.println("carIconPoint.x = " + carIconPoint.x);
 							System.out.println("carIconPoint.y = " + carIconPoint.y);
-							System.out.println("carIconHeading = " + carHeading);
+							System.out.println("carHeading = " + carHeading);
 						}
 
 						// Offset based on car image half width and half height
