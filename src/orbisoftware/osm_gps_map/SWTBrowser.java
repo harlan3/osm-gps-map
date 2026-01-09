@@ -41,7 +41,7 @@ public class SWTBrowser {
 		return count;
 	}
 
-	public void mainApplication() {
+	private void mainApplication() {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
@@ -109,6 +109,7 @@ public class SWTBrowser {
 
 				browser.execute(setupScript);
 
+				// Main browser execution code
 				display.timerExec(1000, new Runnable() {
 					@Override
 					public void run() {
@@ -183,10 +184,10 @@ public class SWTBrowser {
 								
 								// if less than 5 meters between points then use prevHeading to avoid erroneous heading changes
 								if (distBetweenPoints < 5.0)
-									carHeadingVal = SharedData.prevHeading;
+									carHeadingVal = SharedData.getInstance().getPrevHeading();
 								else {
 									carHeadingVal = carHeading;
-									SharedData.prevHeading = carHeading;
+									SharedData.getInstance().setPrevHeading(carHeading);
 								}
 								
 								// Safe: Use Locale.US for decimal separator

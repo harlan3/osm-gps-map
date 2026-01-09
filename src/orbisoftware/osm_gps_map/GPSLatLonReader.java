@@ -260,7 +260,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		return new double[] { lat, lon };
 	}
 
-	double[] screenToLatLon(int screenX, int screenY, int viewWidth, int viewHeight, double centerLat, double centerLon,
+	public double[] screenToLatLon(int screenX, int screenY, int viewWidth, int viewHeight, double centerLat, double centerLon,
 			int zoom) {
 
 		Point2D.Double centerWorld = latLonToWorldPixel(centerLat, centerLon, zoom);
@@ -271,7 +271,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		return worldPixelToLatLon(worldX, worldY, zoom);
 	}
 
-	Point latLonToScreen(double lat, double lon, int viewWidth, int viewHeight, double centerLat, double centerLon,
+	public Point latLonToScreen(double lat, double lon, int viewWidth, int viewHeight, double centerLat, double centerLon,
 			int zoom) {
 
 		Point2D.Double world = latLonToWorldPixel(lat, lon, zoom);

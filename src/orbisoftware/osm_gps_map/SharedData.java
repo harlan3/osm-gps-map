@@ -13,7 +13,8 @@ public class SharedData {
 	public static boolean incrementGPS = false;
 	public static boolean applicationClosing = false;
 	public static String comPort = null;
-	public static float prevHeading = 0.0f;
+	
+	private float prevHeading = 0.0f;
 	private LatLon prevCoord = null;
 	private LatLon currCoord = null;
 
@@ -44,5 +45,15 @@ public class SharedData {
 	public synchronized LatLon getCurrCoord() {
 
 		return currCoord;
+	}
+	
+	public synchronized void setPrevHeading(float prevHeading) {
+		
+		this.prevHeading = prevHeading;
+	}
+	
+	public synchronized float getPrevHeading() {
+		
+		return prevHeading;
 	}
 }

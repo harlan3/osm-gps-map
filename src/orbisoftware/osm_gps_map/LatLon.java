@@ -12,7 +12,7 @@ public class LatLon {
 	public double latitude;
 	public double longitude;
 
-	LatLon(double latitude, double longitude) {
+	public LatLon(double latitude, double longitude) {
 
 		this.latitude = latitude;
 		this.longitude = longitude;
