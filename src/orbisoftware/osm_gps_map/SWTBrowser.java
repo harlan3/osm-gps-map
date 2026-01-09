@@ -162,6 +162,7 @@ public class SWTBrowser {
 							System.out.println("carIconPoint.x = " + carIconPoint.x);
 							System.out.println("carIconPoint.y = " + carIconPoint.y);
 							System.out.println("carHeading = " + carHeading);
+							System.out.println();
 						}
 
 						// Offset based on car image half width and half height
