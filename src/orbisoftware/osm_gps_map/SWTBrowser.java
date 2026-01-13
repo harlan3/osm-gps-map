@@ -126,6 +126,7 @@ public class SWTBrowser {
 						// Extract the zoom level out of the current URL
 						String currentUrl = browser.getUrl();
 						int numberPoints = countNumberPoints(currentUrl);
+						currentUrl = currentUrl.replaceAll("#z=", "\\?z="); // Sometime comes back incorrectly with hash
 						String split1[] = currentUrl.split("\\?z=");
 						String split2[] = split1[1].split("&center=");
 						String split3[], split4[];
