@@ -163,7 +163,6 @@ public class SWTBrowser {
 							System.out.println("carIconPoint.x = " + carIconPoint.x);
 							System.out.println("carIconPoint.y = " + carIconPoint.y);
 							System.out.println("carHeading = " + carHeading);
-							System.out.println();
 						}
 
 						// Offset based on car image half width and half height
@@ -184,12 +183,17 @@ public class SWTBrowser {
 												SharedData.getInstance().getPrevCoord());
 								}
 								
-								// if less than 5 meters between points then use prevHeading to avoid erroneous heading changes
-								if (distBetweenPoints < 5.0)
+								// if less than 1 meters between points then use prevHeading to avoid erroneous heading changes
+								if (distBetweenPoints < 1.0)
 									carHeadingVal = SharedData.getInstance().getPrevHeading();
 								else {
 									carHeadingVal = carHeading;
 									SharedData.getInstance().setPrevHeading(carHeading);
+								}
+
+								if (SharedData.debug) {
+									System.out.println("distBetweenPoints = " + distBetweenPoints);
+									System.out.println();
 								}
 								
 								// Safe: Use Locale.US for decimal separator
