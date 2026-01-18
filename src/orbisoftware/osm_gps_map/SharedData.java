@@ -14,7 +14,7 @@ public class SharedData {
 	public static boolean applicationClosing = false;
 	public static String comPort = null;
 	
-	private float prevHeading = 0.0f;
+	private float heading = 0.0f;
 	private LatLon prevCoord = null;
 	private LatLon currCoord = null;
 	private double distance = 0.0;
@@ -50,12 +50,12 @@ public class SharedData {
 	
 	public synchronized void setHeading(float prevHeading) {
 		
-		this.prevHeading = prevHeading;
+		this.heading = prevHeading;
 	}
 	
 	public synchronized float getHeading() {
 		
-		return prevHeading;
+		return heading;
 	}
 	
 	public synchronized void setDistBetweenPoints(double distance) {
