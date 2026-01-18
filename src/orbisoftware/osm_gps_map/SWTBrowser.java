@@ -154,8 +154,8 @@ public class SWTBrowser {
 								centerLon, zoomLevel);
 
 						// Offset based on car image half width and half height
-						carIconPoint.x -= 17/2;
-						carIconPoint.y -= 35/2;
+						carIconPoint.x -= 17;
+						carIconPoint.y -= 35;
 						
 						Display.getDefault().asyncExec(() -> {
 							
