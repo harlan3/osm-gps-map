@@ -88,7 +88,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			return;
 
 		LatLon newCoord = new LatLon(nmeaToDecimal(t[3], t[4]), nmeaToDecimal(t[5], t[6]));
-		mapProcessingUpdate(newCoord);
+		mapStateUpdate(newCoord);
 
 		if (SharedData.debug)
 			System.out.printf("GPRMC -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
@@ -110,7 +110,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		}
 
 		LatLon newCoord = new LatLon(nmeaToDecimal(t[2], t[3]), nmeaToDecimal(t[4], t[5]));
-		mapProcessingUpdate(newCoord);
+		mapStateUpdate(newCoord);
 
 		if (SharedData.debug)
 			System.out.printf("GNGGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
@@ -124,13 +124,13 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			return;
 
 		LatLon newCoord = new LatLon(nmeaToDecimal(t[2], t[3]), nmeaToDecimal(t[4], t[5]));
-		mapProcessingUpdate(newCoord);
+		mapStateUpdate(newCoord);
 
 		if (SharedData.debug)
 			System.out.printf("GPGGA -> Lat: %.6f  Lon: %.6f%n", newCoord.latitude, newCoord.longitude);
 	}
 	
-	void mapProcessingUpdate(LatLon newCoord) {
+	void mapStateUpdate(LatLon newCoord) {
 		
 		if (SharedData.incrementGPS) {
 			
@@ -140,7 +140,6 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			newCoord.longitude += lonGenerator;
 		}
 		
-		// Update previous coordinate if beyond threshold distance
 		if (SharedData.getInstance().getPrevCoord() != null) {
 			
 			double distBetweenPoints = distanceMeters(newCoord, 
@@ -148,14 +147,13 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			
 			SharedData.getInstance().setDistBetweenPoints(distBetweenPoints);
 			
-			// if less than 5 meters then don't update prevCoord to avoid erroneous heading changes
+			// if greater than 5 meters then update heading and prevCoord
 			if (distBetweenPoints > 5.0) {
 				
-				// Calculate heading and set prevCoord to new coordinate location
-				float carHeading = (float) bearingDegFromLoc(
-						SharedData.getInstance().getPrevCoord(), SharedData.getInstance().getCurrCoord()) + 90.0f;
+				float carHeading = (float) bearingDegFromLoc(SharedData.getInstance().getPrevCoord(), 
+						SharedData.getInstance().getCurrCoord()) + 90.0f;
 				SharedData.getInstance().setHeading(carHeading);
-				SharedData.getInstance().setPrevCoord(newCoord);
+				SharedData.getInstance().setPrevCoord(SharedData.getInstance().getCurrCoord());
 			}
 		} else {
 			
@@ -163,7 +161,7 @@ public class GPSLatLonReader extends Thread implements Runnable {
 			SharedData.getInstance().setPrevCoord(newCoord);
 		}
 		
-		// Update current coordinate
+		// Update current coordinate with new coordinate
 		SharedData.getInstance().setCurrCoord(newCoord);
 	}
 
