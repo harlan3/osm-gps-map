@@ -153,18 +153,6 @@ public class SWTBrowser {
 								SharedData.getInstance().getCurrCoord().longitude, screenWidth, screenHeight, centerLat,
 								centerLon, zoomLevel);
 
-						// Calculate heading and set rotation
-						float carHeading = (float) gpsLatLonReader.bearingDegFromLoc(
-								SharedData.getInstance().getPrevCoord(), SharedData.getInstance().getCurrCoord())
-								+ 90.0f;
-
-						if (SharedData.debug) {
-							
-							System.out.println("carIconPoint.x = " + carIconPoint.x);
-							System.out.println("carIconPoint.y = " + carIconPoint.y);
-							System.out.println("carHeading = " + carHeading);
-						}
-
 						// Offset based on car image half width and half height
 						carIconPoint.x -= 17/2;
 						carIconPoint.y -= 35/2;
@@ -173,26 +161,14 @@ public class SWTBrowser {
 							
 							if (browser != null && !browser.isDisposed()) {
 								
-								double distBetweenPoints = 0.0;
-								float carHeadingVal = 0.0f;
-								
-								if ((SharedData.getInstance().getCurrCoord() != null) &&
-									(SharedData.getInstance().getPrevCoord() != null)) {
-									
-									distBetweenPoints = gpsLatLonReader.distanceMeters(SharedData.getInstance().getCurrCoord(), 
-												SharedData.getInstance().getPrevCoord());
-								}
-								
-								// if less than 5 meters between points then use prevHeading 
-								// to avoid erroneous heading changes
-								if (distBetweenPoints < 5.0)
-									carHeadingVal = SharedData.getInstance().getPrevHeading();
-								else {
-									carHeadingVal = carHeading;
-									SharedData.getInstance().setPrevHeading(carHeading);
-								}
+								double distBetweenPoints = SharedData.getInstance().getDistBetweenPoints();
+								float carHeadingVal = SharedData.getInstance().getHeading();
 
 								if (SharedData.debug) {
+									
+									System.out.println("carIconPoint.x = " + carIconPoint.x);
+									System.out.println("carIconPoint.y = " + carIconPoint.y);
+									System.out.println("carHeading = " + SharedData.getInstance().getHeading());
 									System.out.println("distBetweenPoints = " + distBetweenPoints);
 									System.out.println();
 								}

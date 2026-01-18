@@ -17,7 +17,8 @@ public class SharedData {
 	private float prevHeading = 0.0f;
 	private LatLon prevCoord = null;
 	private LatLon currCoord = null;
-
+	private double distance = 0.0;
+	
 	private static final SharedData instance = new SharedData();
 
 	private SharedData() {
@@ -47,13 +48,23 @@ public class SharedData {
 		return currCoord;
 	}
 	
-	public synchronized void setPrevHeading(float prevHeading) {
+	public synchronized void setHeading(float prevHeading) {
 		
 		this.prevHeading = prevHeading;
 	}
 	
-	public synchronized float getPrevHeading() {
+	public synchronized float getHeading() {
 		
 		return prevHeading;
+	}
+	
+	public synchronized void setDistBetweenPoints(double distance) {
+		
+		this.distance = distance;
+	}
+	
+	public synchronized double getDistBetweenPoints() {
+		
+		return distance;
 	}
 }
