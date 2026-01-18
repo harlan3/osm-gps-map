@@ -34,7 +34,6 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		SerialPort port = SerialPort.getCommPort(SharedData.comPort);
 		port.setComPortParameters(4800, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
-
 		port.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
 
 		if (!port.openPort()) {
@@ -179,7 +178,6 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		int degrees = (int) (raw / 100);
 		double minutes = raw - (degrees * 100);
-
 		double decimal = degrees + (minutes / 60.0);
 
 		if ("S".equals(hemisphere) || "W".equals(hemisphere)) {
@@ -217,7 +215,6 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2)
 				+ Math.cos(latRad1) * Math.cos(latRad2) * Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
 		return EARTH_RADIUS_METERS * c;

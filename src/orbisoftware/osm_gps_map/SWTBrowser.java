@@ -153,7 +153,7 @@ public class SWTBrowser {
 								SharedData.getInstance().getCurrCoord().longitude, screenWidth, screenHeight, centerLat,
 								centerLon, zoomLevel);
 
-						// Offset based on car image half width and half height
+						// Offset based on car image width and height
 						carIconPoint.x -= 17;
 						carIconPoint.y -= 35;
 						
