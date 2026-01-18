@@ -153,10 +153,22 @@ public class GPSLatLonReader extends Thread implements Runnable {
 
 		LatLon newCoord = new LatLon(nmeaToDecimal(t[2], t[3]), nmeaToDecimal(t[4], t[5]));
 
-		// Update previous coordinate
-		if (newCoord != SharedData.getInstance().getCurrCoord())
-			SharedData.getInstance().setPrevCoord(SharedData.getInstance().getCurrCoord());
-
+		// Update previous coordinate if beyond threshold distance
+		if (SharedData.getInstance().getPrevCoord() != null) {
+			
+			double distBetweenPoints = distanceMeters(newCoord, 
+				SharedData.getInstance().getPrevCoord());
+			
+			// if less than 5 meters then don't update prevCoord to avoid erroneous 
+			// heading changes
+			if (distBetweenPoints > 5.0)
+				SharedData.getInstance().setPrevCoord(SharedData.getInstance().getCurrCoord());
+		} else {
+			
+			// Set initial prevCoord if null
+			SharedData.getInstance().setPrevCoord(newCoord);
+		}
+		
 		if (SharedData.incrementGPS) {
 			
 			latGenerator -= 0.0001;

@@ -183,8 +183,9 @@ public class SWTBrowser {
 												SharedData.getInstance().getPrevCoord());
 								}
 								
-								// if less than 1 meters between points then use prevHeading to avoid erroneous heading changes
-								if (distBetweenPoints < 1.0)
+								// if less than 5 meters between points then use prevHeading 
+								// to avoid erroneous heading changes
+								if (distBetweenPoints < 5.0)
 									carHeadingVal = SharedData.getInstance().getPrevHeading();
 								else {
 									carHeadingVal = carHeading;
