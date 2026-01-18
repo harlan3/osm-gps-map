@@ -161,8 +161,8 @@ public class SWTBrowser {
 							
 							if (browser != null && !browser.isDisposed()) {
 								
-								double distBetweenPoints = SharedData.getInstance().getDistBetweenPoints();
-								float carHeadingVal = SharedData.getInstance().getHeading();
+								final double distBetweenPoints = SharedData.getInstance().getDistBetweenPoints();
+								final float carHeading = SharedData.getInstance().getHeading();
 
 								if (SharedData.debug) {
 									
@@ -175,7 +175,7 @@ public class SWTBrowser {
 								
 								// Safe: Use Locale.US for decimal separator
 								String js = String.format(Locale.US,
-										"window.updateCarHeading(" + carHeadingVal + ");%n"
+										"window.updateCarHeading(" + carHeading + ");%n"
 										+ "let carIcon = document.getElementById('car-icon');%n" 
 												+ "if (carIcon) {%n"
 												+ "    carIcon.style.visibility = 'visible';%n"
