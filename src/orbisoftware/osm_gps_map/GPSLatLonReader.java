@@ -133,8 +133,8 @@ public class GPSLatLonReader extends Thread implements Runnable {
 		
 		if (SharedData.incrementGPS) {
 			
-			latGenerator -= 0.00015;
-			lonGenerator -= 0.00015;
+			latGenerator -= 0.00005;
+			lonGenerator -= 0.00005;
 			newCoord.latitude += latGenerator;
 			newCoord.longitude += lonGenerator;
 		}
